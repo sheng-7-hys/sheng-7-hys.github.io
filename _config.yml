@@ -1,0 +1,25 @@
+title: "Sheng's Blog"
+description: "记录生活、技术与思考"
+author: sheng-7-hys
+email: ""
+baseurl: ""
+url: "https://sheng-7-hys.github.io"
+
+theme: minima
+
+# Minima theme settings
+minima:
+  skin: classic
+
+# Build settings
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
+# Plugins (GitHub Pages supported)
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Navigation pages shown in header
+header_pages:
+  - about.md
