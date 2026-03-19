@@ -1,0 +1,21 @@
+title: Sheng's Blog
+description: 记录生活与思考
+url: "https://sheng-7-hys.github.io"
+
+author:
+  name: sheng-7-hys
+
+theme: minima
+
+minima:
+  skin: classic
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+header_pages:
+  - about.md
+
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
