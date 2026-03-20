@@ -19,106 +19,199 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================
-   2. 顶部导航栏 — 柔和渐变背景 + 调整内边距
+   2. 顶部导航栏 — 粉色渐变背景
    ========================================================== */
 .site-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f9b4d0 0%, #e8619e 50%, #c0457c 100%);
   border-top: none;
   border-bottom: none;
-  padding: 14px 0;
-  transition: background 0.3s ease;
+  padding: 0;
+  position: relative;
+  z-index: 100;
 }
 
-/* 博客标题（左侧） */
+/* 头部内层：三列布局（菜单 | 标题 | 头像） */
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  position: relative;
+}
+
+/* 博客标题 */
 .site-title {
   color: #ffffff !important;
   font-weight: 600;
   letter-spacing: 0.05em;
+  flex: 1;
+  text-align: center;
 
   &:visited {
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
   &:hover {
-    color: rgba(255, 255, 255, 0.75) !important;
-    text-decoration: none;
-  }
-}
-
-/* 导航链接（桌面端右侧） */
-.site-nav .page-link {
-  color: rgba(255, 255, 255, 0.92);
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.8) !important;
     text-decoration: none;
   }
 }
 
 /* ==========================================================
-   3. 汉堡菜单按钮 — hover 缩放 + 颜色变化 + 点击平滑过渡
+   3. 汉堡菜单按钮 + 下拉面板
    ========================================================== */
-
-/* 汉堡图标 SVG 路径改为白色 */
-.site-nav .menu-icon > svg path {
-  fill: #ffffff;
+.nav-menu-wrap {
+  position: relative;
+  flex-shrink: 0;
 }
 
-/* label（整个点击区域）hover 时轻微缩放 */
-.site-nav label[for="nav-trigger"] {
-  display: block;
-  transition: transform 0.2s ease;
+/* 汉堡按钮 */
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  padding: 0;
 
   &:hover {
-    transform: scale(1.12);
-  }
-
-  &:hover .menu-icon > svg path {
-    fill: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.28);
+    transform: scale(1.08);
+    box-shadow: 0 3px 12px rgba(192, 69, 124, 0.35);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.94);
+  }
+
+  /* 激活（菜单展开）状态 */
+  &.is-active {
+    background: rgba(255, 255, 255, 0.32);
   }
 }
 
-/* 移动端导航下拉：用 max-height 实现平滑展开动画 */
-@media screen and (max-width: 600px) {
-  .site-nav {
-    /* 将 border 改成配合渐变头部 */
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(118, 75, 162, 0.85);
-    border-radius: 6px;
+/* 三条横线图标 */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 
-    .trigger {
-      /* 覆盖 minima 默认 display:none，改用 max-height 动画 */
-      display: block !important;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease, padding-bottom 0.35s ease;
-      padding-bottom: 0;
+  span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+    transform-origin: center;
+  }
+}
+
+/* 激活时三横线变 X */
+.hamburger-btn.is-active .hamburger-icon {
+  span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  span:nth-child(2) {
+    opacity: 0;
+    width: 0;
+  }
+  span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+/* 下拉菜单面板 */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 200px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(192, 69, 124, 0.18),
+              0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  /* 收起状态 */
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.97);
+  transition: max-height 0.35s ease,
+              opacity 0.28s ease,
+              transform 0.28s ease;
+
+  &.is-open {
+    max-height: 400px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+  }
+
+  li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.93rem;
+    transition: background 0.18s ease, color 0.18s ease, padding-left 0.18s ease;
+
+    &:hover {
+      background: linear-gradient(90deg, #fde8f2 0%, #fdf0f7 100%);
+      color: #c0457c;
+      padding-left: 22px;
+      text-decoration: none;
     }
+  }
 
-    .nav-trigger:checked ~ .trigger {
-      max-height: 500px;
-      padding-bottom: 6px;
-    }
-
-    .page-link {
-      color: rgba(255, 255, 255, 0.95);
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-
-      &:hover {
-        color: #ffffff;
-      }
-    }
+  .menu-item-icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
   }
 }
 
 /* ==========================================================
-   4. 个人档案 Hero 区域 — 渐变背景 + 圆角 + 呼吸感内边距
+   4. 右侧导航头像
+   ========================================================== */
+.nav-avatar-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(192, 69, 124, 0.45);
+  }
+}
+
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  display: block;
+  object-fit: cover;
+}
+
+/* ==========================================================
+   5. 个人档案 Hero 区域 — 渐变背景 + 圆角 + 呼吸感内边距
    ========================================================== */
 .profile-hero {
   text-align: center;
@@ -131,7 +224,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================
-   5. 头像 — 白色边框 + 轻微阴影 + 保持圆形
+   6. 头像 — 白色边框 + 轻微阴影 + 保持圆形
    ========================================================== */
 .profile-avatar {
   width: 120px;
@@ -169,7 +262,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================
-   6. GitHub / Email 联系链接 — Font Awesome 图标 + hover 上移变色
+   7. GitHub / Email 联系链接 — Font Awesome 图标 + hover 上移变色
    ========================================================== */
 .contact-links {
   list-style: none;
@@ -208,7 +301,143 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================
-   7. 移动端适配 — 小屏幕自动调整布局
+   7. 文章列表区域
+   ========================================================== */
+.post-list-section {
+  margin: 36px 0 20px;
+}
+
+.post-list-section__title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #c0457c;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #fde8f2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-list-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.post-card {
+  background: #ffffff;
+  border: 1px solid #fde8f2;
+  border-radius: 12px;
+  padding: 14px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192, 69, 124, 0.12);
+    border-color: #e8619e;
+  }
+}
+
+.post-card__link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.post-card__title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2d2d2d;
+  flex: 1;
+  transition: color 0.2s ease;
+
+  .post-card:hover & {
+    color: #c0457c;
+  }
+}
+
+.post-card__date {
+  font-size: 0.82rem;
+  color: #aaa;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.post-list-empty {
+  color: #bbb;
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* ==========================================================
+   9. 文章归档页样式
+   ========================================================== */
+.archives-list {
+  margin-top: 16px;
+}
+
+.archive-year {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #c0457c;
+  margin: 28px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #fde8f2;
+}
+
+.archive-posts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.archive-post-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 4px;
+  border-bottom: 1px solid #f9f0f5;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #fdf5fa;
+    border-radius: 6px;
+  }
+}
+
+.archive-date {
+  font-size: 0.82rem;
+  color: #aaa;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  width: 42px;
+}
+
+.archive-post-item a {
+  color: #333;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #c0457c;
+    text-decoration: none;
+  }
+}
+
+/* ==========================================================
+   8. 移动端适配 — 小屏幕自动调整布局
    ========================================================== */
 @media screen and (max-width: 600px) {
   .profile-hero {
@@ -228,5 +457,18 @@ h1, h2, h3, h4, h5, h6 {
 
   .profile-welcome p {
     font-size: 0.95rem;
+  }
+
+  .dropdown-menu {
+    width: 180px;
+  }
+
+  .post-card__link {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .post-card__date {
+    font-size: 0.78rem;
   }
 }
