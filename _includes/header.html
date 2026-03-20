@@ -1,0 +1,109 @@
+<header class="site-header" role="banner">
+  <div class="wrapper site-header__inner">
+
+    <!-- ① 左侧汉堡菜单 -->
+    <div class="nav-menu-wrap">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="打开菜单" aria-expanded="false">
+        <span class="hamburger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+
+      <!-- 下拉菜单面板 -->
+      <nav class="dropdown-menu" id="dropdownMenu" aria-hidden="true">
+        <ul>
+          <li>
+            <a href="{{ "/" | relative_url }}">
+              <span class="menu-item-icon">🏠</span>
+              <span>首页</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ "/about/" | relative_url }}">
+              <span class="menu-item-icon">👤</span>
+              <span>关于我</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ "/archives/" | relative_url }}">
+              <span class="menu-item-icon">📂</span>
+              <span>文章归档</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ "/feed.xml" | relative_url }}" target="_blank" rel="noopener">
+              <span class="menu-item-icon">📡</span>
+              <span>RSS 订阅</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/sheng-7-hys" target="_blank" rel="noopener">
+              <span class="menu-item-icon">💻</span>
+              <span>我的 GitHub</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- ② 博客标题（居中/左） -->
+    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">
+      {{- site.title | escape -}}
+    </a>
+
+    <!-- ③ 右侧：头像链接到 About -->
+    <a class="nav-avatar-link" href="{{ "/about/" | relative_url }}" title="关于我">
+      <img
+        src="https://github.com/sheng-7-hys.png"
+        alt="Sheng's Avatar"
+        class="nav-avatar"
+      >
+    </a>
+
+  </div><!-- .wrapper -->
+</header>
+
+<script>
+(function () {
+  var btn = document.getElementById('hamburgerBtn');
+  var menu = document.getElementById('dropdownMenu');
+  if (!btn || !menu) return;
+
+  function openMenu() {
+    menu.classList.add('is-open');
+    btn.classList.add('is-active');
+    btn.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMenu() {
+    menu.classList.remove('is-open');
+    btn.classList.remove('is-active');
+    btn.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (menu.classList.contains('is-open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // 点击菜单外部关闭
+  document.addEventListener('click', function (e) {
+    if (!menu.contains(e.target) && e.target !== btn) {
+      closeMenu();
+    }
+  });
+
+  // Esc 键关闭
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
+</script>
