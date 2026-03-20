@@ -16,6 +16,16 @@ Hi，我是 **Sheng** 👋
 
 ## 联系我
 
-- GitHub：[@sheng-7-hys](https://github.com/sheng-7-hys)
-- E-mail：[han.ys@outlook.com](mailto:han.ys@outlook.com)
+<ul class="contact-links">
+  <li>
+    <a href="https://github.com/sheng-7-hys">
+      <i class="fab fa-github"></i>@sheng-7-hys
+    </a>
+  </li>
+  <li>
+    <a href="mailto:han.ys@outlook.com">
+      <i class="fas fa-envelope"></i>han.ys@outlook.com
+    </a>
+  </li>
+</ul>
 感谢访问，欢迎留言批评😊

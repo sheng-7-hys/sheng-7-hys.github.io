@@ -1,0 +1,232 @@
+---
+---
+
+@import "minima";
+
+/* ==========================================================
+   1. 全局字体设置 — Inter (英文) + Noto Sans SC (中文)
+   ========================================================== */
+body {
+  font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================
+   2. 顶部导航栏 — 柔和渐变背景 + 调整内边距
+   ========================================================== */
+.site-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-top: none;
+  border-bottom: none;
+  padding: 14px 0;
+  transition: background 0.3s ease;
+}
+
+/* 博客标题（左侧） */
+.site-title {
+  color: #ffffff !important;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+
+  &:visited {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.75) !important;
+    text-decoration: none;
+  }
+}
+
+/* 导航链接（桌面端右侧） */
+.site-nav .page-link {
+  color: rgba(255, 255, 255, 0.92);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #ffffff;
+    text-decoration: none;
+  }
+}
+
+/* ==========================================================
+   3. 汉堡菜单按钮 — hover 缩放 + 颜色变化 + 点击平滑过渡
+   ========================================================== */
+
+/* 汉堡图标 SVG 路径改为白色 */
+.site-nav .menu-icon > svg path {
+  fill: #ffffff;
+}
+
+/* label（整个点击区域）hover 时轻微缩放 */
+.site-nav label[for="nav-trigger"] {
+  display: block;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.12);
+  }
+
+  &:hover .menu-icon > svg path {
+    fill: rgba(255, 255, 255, 0.75);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* 移动端导航下拉：用 max-height 实现平滑展开动画 */
+@media screen and (max-width: 600px) {
+  .site-nav {
+    /* 将 border 改成配合渐变头部 */
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(118, 75, 162, 0.85);
+    border-radius: 6px;
+
+    .trigger {
+      /* 覆盖 minima 默认 display:none，改用 max-height 动画 */
+      display: block !important;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding-bottom 0.35s ease;
+      padding-bottom: 0;
+    }
+
+    .nav-trigger:checked ~ .trigger {
+      max-height: 500px;
+      padding-bottom: 6px;
+    }
+
+    .page-link {
+      color: rgba(255, 255, 255, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+/* ==========================================================
+   4. 个人档案 Hero 区域 — 渐变背景 + 圆角 + 呼吸感内边距
+   ========================================================== */
+.profile-hero {
+  text-align: center;
+  padding: 52px 32px 44px;
+  background: linear-gradient(135deg, #f0f4ff 0%, #ede8ff 50%, #f5e6ff 100%);
+  border-radius: 20px;
+  margin: 28px 0;
+  box-shadow: 0 6px 28px rgba(102, 126, 234, 0.12),
+              0 2px 8px rgba(118, 75, 162, 0.06);
+}
+
+/* ==========================================================
+   5. 头像 — 白色边框 + 轻微阴影 + 保持圆形
+   ========================================================== */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14),
+              0 0 0 3px rgba(102, 126, 234, 0.18);
+  display: block;
+  margin: 0 auto 22px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2),
+                0 0 0 4px rgba(118, 75, 162, 0.28);
+  }
+}
+
+/* 欢迎标题 */
+.profile-welcome h1 {
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+
+/* 副标题描述 */
+.profile-welcome p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ==========================================================
+   6. GitHub / Email 联系链接 — Font Awesome 图标 + hover 上移变色
+   ========================================================== */
+.contact-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-links li {
+  margin: 10px 0;
+}
+
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  /* Font Awesome 图标过渡 */
+  i {
+    font-size: 1.1em;
+    transition: transform 0.22s ease, color 0.22s ease;
+  }
+
+  &:hover {
+    color: #667eea;
+    text-decoration: none;
+
+    /* hover 时图标轻微上移并变色 */
+    i {
+      transform: translateY(-3px);
+      color: #764ba2;
+    }
+  }
+}
+
+/* ==========================================================
+   7. 移动端适配 — 小屏幕自动调整布局
+   ========================================================== */
+@media screen and (max-width: 600px) {
+  .profile-hero {
+    padding: 36px 18px 30px;
+    margin: 16px 0;
+    border-radius: 14px;
+  }
+
+  .profile-avatar {
+    width: 96px;
+    height: 96px;
+  }
+
+  .profile-welcome h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-welcome p {
+    font-size: 0.95rem;
+  }
+}
