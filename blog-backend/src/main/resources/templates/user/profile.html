@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('个人信息')}"></head>
+<body>
+
+<header th:replace="~{fragments/common :: header(${loginUser})}"></header>
+
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+    <div class="profile-page">
+      <h1>👤 个人信息</h1>
+
+      <!-- 错误提示 -->
+      <div class="error-msg" th:if="${error != null}" th:text="${error}"></div>
+
+      <!-- 成功提示 -->
+      <div class="success-msg" th:if="${param.success != null}">
+        信息更新成功 🎉
+      </div>
+
+      <!-- 当前头像预览 -->
+      <img th:src="${user.avatar != null ? user.avatar : 'https://github.com/sheng-7-hys.png'}"
+           alt="头像" class="avatar-preview">
+
+      <form action="/profile" method="post">
+        <div class="form-group">
+          <label>用户名</label>
+          <input type="text" th:value="${user.username}" disabled
+                 style="background:#f9f9f9;color:#aaa;">
+          <small style="color:#aaa;font-size:0.8rem;">用户名不可修改</small>
+        </div>
+        <div class="form-group">
+          <label for="email">邮箱</label>
+          <input type="email" id="email" name="email"
+                 th:value="${user.email}"
+                 placeholder="请输入邮箱">
+        </div>
+        <div class="form-group">
+          <label for="avatar">头像 URL</label>
+          <input type="url" id="avatar" name="avatar"
+                 th:value="${user.avatar}"
+                 placeholder="请输入头像图片 URL">
+        </div>
+        <button type="submit" class="form-submit-btn">保存修改</button>
+      </form>
+
+      <p style="margin-top:18px;">
+        <a th:href="@{/}" style="color:#aaa;font-size:0.9rem;">← 返回首页</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<script th:replace="~{fragments/common :: hamburgerScript}"></script>
+</body>
+</html>
