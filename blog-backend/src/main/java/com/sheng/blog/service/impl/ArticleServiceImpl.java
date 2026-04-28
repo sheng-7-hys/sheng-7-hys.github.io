@@ -1,6 +1,7 @@
 package com.sheng.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -36,20 +37,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     /**
-     * 根据ID查询文章详情，同时自增阅读量
+     * 根据ID查询文章详情，同时原子自增阅读量
      *
      * @param id 文章ID
      * @return 文章 VO
      */
     @Override
     public ArticleVO getArticleDetail(Long id) {
-        // 自增阅读量（直接更新数据库，忽略并发竞争，计数允许轻微误差）
-        Article article = getById(id);
-        if (article == null) {
+        // 校验文章是否存在
+        long count = count(new LambdaQueryWrapper<Article>().eq(Article::getId, id));
+        if (count == 0) {
             throw new BlogException(404, "文章不存在");
         }
-        article.setViewCount(article.getViewCount() + 1);
-        updateById(article);
+        // 原子自增阅读量：直接使用 SQL 更新，避免并发读写不一致
+        update(new LambdaUpdateWrapper<Article>()
+                .eq(Article::getId, id)
+                .setSql("view_count = view_count + 1"));
 
         // 查询完整 VO（含分类名、作者名）
         return baseMapper.selectArticleVOById(id);
