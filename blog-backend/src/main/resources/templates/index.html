@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('首页')}"></head>
+<body>
+
+<header th:replace="~{fragments/common :: header(${loginUser})}"></header>
+
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+
+    <!-- 个人档案 Hero 区域 -->
+    <div class="profile-hero">
+      <img
+        th:src="${loginUser != null and loginUser.avatar != null ? loginUser.avatar : 'https://github.com/sheng-7-hys.png'}"
+        alt="Sheng's Avatar"
+        class="profile-avatar"
+      >
+      <div class="profile-welcome">
+        <h1>你好，我是 Sheng 👋</h1>
+        <p>记录生活、技术与思考</p>
+      </div>
+    </div>
+
+    <!-- 分类筛选栏 -->
+    <div class="category-filter" th:if="${categories != null and !categories.isEmpty()}">
+      <a class="category-btn" th:href="@{/}" th:classappend="${selectedCategoryId == null ? ' active' : ''}">全部</a>
+      <a class="category-btn"
+         th:each="cat : ${categories}"
+         th:href="@{/(categoryId=${cat.id})}"
+         th:text="${cat.name}"
+         th:classappend="${selectedCategoryId != null and selectedCategoryId == cat.id ? ' active' : ''}">
+      </a>
+    </div>
+
+    <!-- 文章列表区域 -->
+    <section class="post-list-section">
+      <h2 class="post-list-section__title">📝 近期文章</h2>
+      <ul class="post-list-cards" th:if="${pageResult != null and !pageResult.records.isEmpty()}">
+        <li class="post-card" th:each="article : ${pageResult.records}">
+          <a class="post-card__link" th:href="@{'/article/' + ${article.id}}">
+            <span class="post-card__title" th:text="${article.title}">文章标题</span>
+            <time class="post-card__date"
+                  th:datetime="${#temporals.format(article.createTime, 'yyyy-MM-dd')}"
+                  th:text="${#temporals.format(article.createTime, 'yyyy-MM-dd')}">
+            </time>
+          </a>
+        </li>
+      </ul>
+      <p class="post-list-empty" th:if="${pageResult == null or pageResult.records.isEmpty()}">暂时还没有文章，敬请期待 ✨</p>
+    </section>
+
+    <!-- 分页控制 -->
+    <div class="pagination" th:if="${pageResult != null and pageResult.pages > 1}">
+      <a th:href="@{/(page=${pageResult.current - 1}, categoryId=${selectedCategoryId})}"
+         th:if="${pageResult.current > 1}">« 上一页</a>
+      <th:block th:each="i : ${#numbers.sequence(1, pageResult.pages)}">
+        <span th:if="${i == pageResult.current}" class="current" th:text="${i}">1</span>
+        <a th:if="${i != pageResult.current}"
+           th:href="@{/(page=${i}, categoryId=${selectedCategoryId})}"
+           th:text="${i}">1</a>
+      </th:block>
+      <a th:href="@{/(page=${pageResult.current + 1}, categoryId=${selectedCategoryId})}"
+         th:if="${pageResult.current < pageResult.pages}">下一页 »</a>
+    </div>
+
+  </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<script th:replace="~{fragments/common :: hamburgerScript}"></script>
+</body>
+</html>

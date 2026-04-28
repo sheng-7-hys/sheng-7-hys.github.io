@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('关于我')}"></head>
+<body>
+
+<header th:replace="~{fragments/common :: header(${loginUser})}"></header>
+
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+    <article class="post-content" style="margin-top:32px;">
+      <h1>关于我</h1>
+      <p>Hi，我是 <strong>Sheng</strong> 👋</p>
+      <p>这是我的Blog，用来记录我的大学期间学习笔记、生活感悟和各种想法。</p>
+      <h2>关于我</h2>
+      <ul>
+        <li>💻 人工智能专业在读</li>
+        <li>📚 懒</li>
+        <li>✍️ 坚持写作，记录成长</li>
+      </ul>
+      <h2>联系我</h2>
+      <ul class="contact-links">
+        <li>
+          <a href="https://github.com/sheng-7-hys" target="_blank" rel="noopener">
+            <i class="fab fa-github"></i>@sheng-7-hys
+          </a>
+        </li>
+        <li>
+          <a href="mailto:han.ys@outlook.com">
+            <i class="fas fa-envelope"></i>han.ys@outlook.com
+          </a>
+        </li>
+      </ul>
+      <p>感谢访问，欢迎留言批评😊</p>
+    </article>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<script th:replace="~{fragments/common :: hamburgerScript}"></script>
+</body>
+</html>

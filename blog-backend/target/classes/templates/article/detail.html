@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${article.title})}"></head>
+<body>
+
+<header th:replace="~{fragments/common :: header(${loginUser})}"></header>
+
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+
+    <!-- 文章头部 -->
+    <div class="post-header">
+      <h1 class="post-title" th:text="${article.title}">文章标题</h1>
+      <div class="post-meta">
+        <span th:text="${article.username}">作者</span>
+        <time th:datetime="${#temporals.format(article.createTime,'yyyy-MM-dd')}"
+              th:text="${#temporals.format(article.createTime,'yyyy-MM-dd')}">2024-01-01</time>
+        <a class="category-tag"
+           th:if="${article.categoryName != null}"
+           th:href="@{/(categoryId=${article.categoryId})}"
+           th:text="${article.categoryName}">分类</a>
+        <span th:text="'👁 ' + ${article.viewCount} + ' 阅读'">👁 0 阅读</span>
+      </div>
+    </div>
+
+    <!-- 操作按钮（仅作者或管理员可见） -->
+    <div class="post-actions"
+         th:if="${loginUser != null and (loginUser.role == 1 or loginUser.id == article.userId)}">
+      <a class="btn btn-primary"
+         th:href="@{'/article/' + ${article.id} + '/edit'}">✏️ 编辑</a>
+      <form th:action="@{'/article/' + ${article.id} + '/delete'}" method="post"
+            style="display:inline;"
+            onsubmit="return confirm('确认删除这篇文章吗？')">
+        <button type="submit" class="btn btn-danger">🗑️ 删除</button>
+      </form>
+    </div>
+
+    <!-- 文章内容 -->
+    <article class="post-content" th:utext="${#strings.replace(#strings.escapeXml(article.content), '&#10;', '<br>')}">
+      文章内容
+    </article>
+
+    <hr style="border:none;border-top:1px solid #fde8f2;margin:36px 0;">
+
+    <!-- 评论区 -->
+    <section class="comment-section">
+      <h2 class="comment-section__title">
+        💬 评论 <span style="font-size:0.85rem;font-weight:400;color:#aaa;"
+                     th:text="'（' + ${#lists.size(comments)} + ' 条）'"></span>
+      </h2>
+
+      <!-- 评论列表 -->
+      <ul class="comment-list" th:if="${!comments.isEmpty()}">
+        <li class="comment-item" th:each="comment : ${comments}">
+          <img class="comment-avatar"
+               th:src="${comment.avatar != null ? comment.avatar : 'https://github.com/sheng-7-hys.png'}"
+               th:alt="${comment.username}">
+          <div class="comment-body">
+            <span class="comment-author" th:text="${comment.username}">用户名</span>
+            <time class="comment-time"
+                  th:text="${#temporals.format(comment.createTime,'yyyy-MM-dd HH:mm')}">时间</time>
+            <p class="comment-content" th:text="${comment.content}">评论内容</p>
+
+            <!-- 子评论（回复） -->
+            <ul class="comment-children" th:if="${comment.children != null and !comment.children.isEmpty()}">
+              <li class="comment-item" th:each="child : ${comment.children}">
+                <img class="comment-avatar"
+                     th:src="${child.avatar != null ? child.avatar : 'https://github.com/sheng-7-hys.png'}"
+                     th:alt="${child.username}">
+                <div class="comment-body">
+                  <span class="comment-author" th:text="${child.username}">用户名</span>
+                  <time class="comment-time"
+                        th:text="${#temporals.format(child.createTime,'yyyy-MM-dd HH:mm')}">时间</time>
+                  <p class="comment-content" th:text="${child.content}">回复内容</p>
+                </div>
+              </li>
+            </ul>
+
+            <!-- 回复按钮（需登录） -->
+            <button class="comment-reply-btn"
+                    th:if="${loginUser != null}"
+                    th:onclick="'toggleReply(' + ${comment.id} + ')'"
+                    type="button">回复</button>
+
+            <!-- 回复表单（默认隐藏） -->
+            <div th:id="'reply-' + ${comment.id}" style="display:none;margin-top:8px;"
+                 th:if="${loginUser != null}">
+              <form action="/comment/add" method="post">
+                <input type="hidden" name="articleId" th:value="${article.id}">
+                <input type="hidden" name="parentId" th:value="${comment.id}">
+                <div class="comment-form">
+                  <textarea name="content" placeholder="回复内容..." rows="3"></textarea>
+                  <button type="submit" class="submit-btn">发送回复</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <p style="color:#bbb;text-align:center;padding:16px 0;" th:if="${comments.isEmpty()}">
+        暂无评论，来抢沙发吧 ✨
+      </p>
+
+      <!-- 发表评论（需登录） -->
+      <div th:if="${loginUser != null}">
+        <h3 style="font-size:1rem;color:#555;margin-bottom:12px;">✍️ 发表评论</h3>
+        <form action="/comment/add" method="post" class="comment-form">
+          <input type="hidden" name="articleId" th:value="${article.id}">
+          <input type="hidden" name="parentId" value="0">
+          <textarea name="content" placeholder="写下你的想法..." required></textarea>
+          <button type="submit" class="submit-btn">发表评论</button>
+        </form>
+      </div>
+
+      <!-- 未登录提示 -->
+      <p class="login-tip" th:if="${loginUser == null}">
+        <a th:href="@{/login}">登录</a> 后才能发表评论
+      </p>
+    </section>
+
+    <p style="margin-top:24px;">
+      <a th:href="@{/}" style="color:#aaa;font-size:0.9rem;">← 返回首页</a>
+    </p>
+
+  </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<script th:replace="~{fragments/common :: hamburgerScript}"></script>
+<script>
+function toggleReply(commentId) {
+  var el = document.getElementById('reply-' + commentId);
+  if (el) {
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+}
+</script>
+</body>
+</html>

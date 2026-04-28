@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sheng.blog.mapper.ArticleMapper">
+
+    <!-- 文章 VO 结果映射 -->
+    <resultMap id="ArticleVOMap" type="com.sheng.blog.vo.ArticleVO">
+        <id column="id"            property="id"/>
+        <result column="title"         property="title"/>
+        <result column="content"       property="content"/>
+        <result column="category_id"   property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="user_id"       property="userId"/>
+        <result column="username"      property="username"/>
+        <result column="avatar"        property="avatar"/>
+        <result column="view_count"    property="viewCount"/>
+        <result column="is_publish"    property="isPublish"/>
+        <result column="create_time"   property="createTime"/>
+        <result column="update_time"   property="updateTime"/>
+    </resultMap>
+
+    <!-- 分页查询文章（关联分类、作者信息） -->
+    <select id="selectArticleVOPage" resultMap="ArticleVOMap">
+        SELECT
+            a.id,
+            a.title,
+            a.content,
+            a.category_id,
+            c.name AS category_name,
+            a.user_id,
+            u.username,
+            u.avatar,
+            a.view_count,
+            a.is_publish,
+            a.create_time,
+            a.update_time
+        FROM article a
+        LEFT JOIN category c ON a.category_id = c.id
+        LEFT JOIN user u      ON a.user_id    = u.id
+        <where>
+            <if test="categoryId != null">
+                AND a.category_id = #{categoryId}
+            </if>
+            <if test="isPublish != null">
+                AND a.is_publish = #{isPublish}
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+    </select>
+
+    <!-- 根据ID查询文章详情（关联分类、作者信息） -->
+    <select id="selectArticleVOById" resultMap="ArticleVOMap">
+        SELECT
+            a.id,
+            a.title,
+            a.content,
+            a.category_id,
+            c.name AS category_name,
+            a.user_id,
+            u.username,
+            u.avatar,
+            a.view_count,
+            a.is_publish,
+            a.create_time,
+            a.update_time
+        FROM article a
+        LEFT JOIN category c ON a.category_id = c.id
+        LEFT JOIN user u      ON a.user_id    = u.id
+        WHERE a.id = #{id}
+    </select>
+
+</mapper>
