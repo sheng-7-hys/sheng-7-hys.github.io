@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C语言和数据结构日常随笔"
+title: "数据结构-线性表·栈·队列"
 date: 2026-04-03 20:14:00 +0800
 categories: [CPL]
 tags: [C]
@@ -31,3 +31,31 @@ LinkList Reverse(Linklist &L){
 ```
 `}LNode,*LinkList;`相当于给`struct LNode`起了两个别名，同时使得`LinkList`直接为指向这种结构的指针，方便后续简便书写。  
 - 在涉及到某个函数调用比较方法时，可以考虑使用函数指针，方便运用不同的比较规则
+
+# 栈分为顺序栈和链栈
+## SqStack
+```c++
+typedef struct{
+    elemtype *base;   //基址，站地指针
+    elemtype *top; //栈顶
+    int size;
+}*SqStack
+```
+
+`top`指向下一个可以入栈的空位置（约定）  
+### 栈的应用
+- 数制转换
+- - eg.10->8
+```c++
+void conversion(unsigned int n){
+    Sqstack* s = InitStack(6);
+    while(n){
+        Push(s,n%8);
+        n/=8;
+    }
+    while(!StackEmpty(s)){
+        printf("%d",Pop(s));
+    }
+}
+```
+- - 汉诺塔
