@@ -11,7 +11,6 @@ layout: home
     width="120"
     height="120"
     decoding="async"
-    fetchpriority="high"
   >
   <div class="profile-welcome">
     <h1>你好，我是 Sheng 👋</h1>
