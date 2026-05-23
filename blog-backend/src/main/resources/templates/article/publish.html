@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('发布文章')}"></head>
+<body>
+
+<header th:replace="~{fragments/common :: header(${loginUser})}"></header>
+
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+    <div class="form-page" style="max-width:680px;">
+      <h1>✍️ 发布文章</h1>
+
+      <!-- 错误提示 -->
+      <div class="error-msg" th:if="${error != null}" th:text="${error}"></div>
+
+      <form action="/article/publish" method="post">
+        <div class="form-group">
+          <label for="title">文章标题 <span style="color:#ff6b6b;">*</span></label>
+          <input type="text" id="title" name="title"
+                 th:value="${dto != null ? dto.title : ''}"
+                 placeholder="请输入文章标题" required maxlength="200">
+        </div>
+
+        <div class="form-group">
+          <label for="categoryId">分类</label>
+          <select id="categoryId" name="categoryId">
+            <option value="">不选分类</option>
+            <option th:each="cat : ${categories}"
+                    th:value="${cat.id}"
+                    th:text="${cat.name}"
+                    th:selected="${dto != null and dto.categoryId == cat.id}">分类名</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="content">文章内容 <span style="color:#ff6b6b;">*</span></label>
+          <textarea id="content" name="content"
+                    placeholder="请输入文章内容（支持换行）" required
+                    style="min-height:360px;"
+                    th:text="${dto != null ? dto.content : ''}"></textarea>
+        </div>
+
+        <div class="form-group" style="display:flex;gap:12px;align-items:center;">
+          <label style="margin:0;">发布状态</label>
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;">
+            <input type="radio" name="isPublish" value="1"
+                   th:checked="${dto == null or dto.isPublish == 1}">
+            立即发布
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;">
+            <input type="radio" name="isPublish" value="0"
+                   th:checked="${dto != null and dto.isPublish == 0}">
+            保存草稿
+          </label>
+        </div>
+
+        <button type="submit" class="form-submit-btn">发 布</button>
+      </form>
+
+      <p style="margin-top:16px;">
+        <a th:href="@{/}" style="color:#aaa;font-size:0.9rem;">← 返回首页</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<script th:replace="~{fragments/common :: hamburgerScript}"></script>
+</body>
+</html>

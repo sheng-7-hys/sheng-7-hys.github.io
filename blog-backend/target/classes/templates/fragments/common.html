@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- 顶部导航栏 Fragment -->
+<header th:fragment="header(loginUser)" class="site-header" role="banner">
+  <div class="wrapper site-header__inner">
+
+    <!-- 左侧汉堡菜单 -->
+    <div class="nav-menu-wrap">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="打开菜单" aria-expanded="false">
+        <span class="hamburger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+
+      <!-- 下拉菜单面板 -->
+      <nav class="dropdown-menu" id="dropdownMenu" aria-hidden="true">
+        <ul>
+          <li>
+            <a th:href="@{/}">
+              <span class="menu-item-icon">🏠</span>
+              <span>首页</span>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/about}">
+              <span class="menu-item-icon">👤</span>
+              <span>关于我</span>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/archives}">
+              <span class="menu-item-icon">📂</span>
+              <span>文章归档</span>
+            </a>
+          </li>
+
+          <!-- 登录后显示的菜单项 -->
+          <th:block th:if="${loginUser != null}">
+            <li>
+              <a th:href="@{/article/publish}">
+                <span class="menu-item-icon">✍️</span>
+                <span>发布文章</span>
+              </a>
+            </li>
+            <li th:if="${loginUser.role == 1}">
+              <a th:href="@{/category/manage}">
+                <span class="menu-item-icon">📁</span>
+                <span>分类管理</span>
+              </a>
+            </li>
+            <li>
+              <a th:href="@{/profile}">
+                <span class="menu-item-icon">👤</span>
+                <span>个人信息</span>
+              </a>
+            </li>
+            <li>
+              <a th:href="@{/logout}">
+                <span class="menu-item-icon">🚪</span>
+                <span>退出登录</span>
+              </a>
+            </li>
+          </th:block>
+
+          <!-- 未登录显示注册/登录 -->
+          <th:block th:if="${loginUser == null}">
+            <li>
+              <a th:href="@{/login}">
+                <span class="menu-item-icon">🔑</span>
+                <span>登录</span>
+              </a>
+            </li>
+            <li>
+              <a th:href="@{/register}">
+                <span class="menu-item-icon">📝</span>
+                <span>注册</span>
+              </a>
+            </li>
+          </th:block>
+
+          <li>
+            <a href="https://github.com/sheng-7-hys" target="_blank" rel="noopener">
+              <span class="menu-item-icon">💻</span>
+              <span>我的 GitHub</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- 博客标题（居中） -->
+    <a class="site-title" th:href="@{/}">Sheng's Blog</a>
+
+    <!-- 右侧：头像链接到 About -->
+    <a class="nav-avatar-link" th:href="@{/about}" title="关于我">
+      <img
+        th:src="${loginUser != null and loginUser.avatar != null ? loginUser.avatar : 'https://github.com/sheng-7-hys.png'}"
+        alt="Sheng's Avatar"
+        class="nav-avatar"
+      >
+    </a>
+
+  </div>
+</header>
+
+<!-- 汉堡菜单交互脚本 Fragment -->
+<script th:fragment="hamburgerScript">
+(function () {
+  var btn = document.getElementById('hamburgerBtn');
+  var menu = document.getElementById('dropdownMenu');
+  if (!btn || !menu) return;
+
+  function openMenu() {
+    menu.classList.add('is-open');
+    btn.classList.add('is-active');
+    btn.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMenu() {
+    menu.classList.remove('is-open');
+    btn.classList.remove('is-active');
+    btn.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (menu.classList.contains('is-open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!menu.contains(e.target) && e.target !== btn) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
+</script>
+
+<!-- 页脚 Fragment -->
+<footer th:fragment="footer" class="site-footer">
+  <div class="wrapper">
+    <p style="text-align:center;color:#aaa;font-size:0.85rem;padding:24px 0 16px;">
+      © 2024 Sheng's Blog · Built with Spring Boot &amp; ❤️
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

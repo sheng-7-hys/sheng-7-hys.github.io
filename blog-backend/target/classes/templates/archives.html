@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('文章归档')}"></head>
+<body>
+
+<header th:replace="~{fragments/common :: header(${loginUser})}"></header>
+
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+    <h1 style="margin-top:32px;color:#2d2d2d;">文章归档</h1>
+
+    <div class="archives-list" th:if="${articlesByYear != null and !articlesByYear.isEmpty()}">
+      <th:block th:each="entry : ${articlesByYear}">
+        <h2 class="archive-year" th:text="${entry.key}">2024</h2>
+        <ul class="archive-posts">
+          <li class="archive-post-item" th:each="article : ${entry.value}">
+            <time class="archive-date"
+                  th:datetime="${#temporals.format(article.createTime,'yyyy-MM-dd')}"
+                  th:text="${#temporals.format(article.createTime,'MM-dd')}">01-01</time>
+            <a th:href="@{'/article/' + ${article.id}}" th:text="${article.title}">文章标题</a>
+          </li>
+        </ul>
+      </th:block>
+    </div>
+
+    <p th:if="${articlesByYear == null or articlesByYear.isEmpty()}"
+       style="color:#bbb;text-align:center;padding:24px 0;">暂无文章 ✨</p>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<script th:replace="~{fragments/common :: hamburgerScript}"></script>
+</body>
+</html>
