@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>生活(示例)</title>
+      <link href="/2026/08/08/2026-08-08-Life/"/>
+      <url>/2026/08/08/2026-08-08-Life/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>这是一篇示例文章,用于让”生活”分类出现在分类页。<br>你可以删除本文件,或编辑 _posts 里的文章内容替换它。</p></blockquote><p>这里是占位内容,后续可以补充 生活 相关的文章。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 生活 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 示例 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Paper 阅读(示例)</title>
+      <link href="/2026/08/08/2026-08-08-Paper-Reading/"/>
+      <url>/2026/08/08/2026-08-08-Paper-Reading/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>这是一篇示例文章,用于让”Paper”分类出现在分类页。<br>你可以删除本文件,或编辑 _posts 里的文章内容替换它。</p></blockquote><p>这里是占位内容,后续可以补充 Paper 相关的文章。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Paper </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 示例 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>深度学习笔记(示例)</title>
+      <link href="/2026/08/08/2026-08-08-Deep-Learning-Notes/"/>
+      <url>/2026/08/08/2026-08-08-Deep-Learning-Notes/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>这是一篇示例文章,用于让”深度学习”分类出现在分类页。<br>你可以删除本文件,或编辑 _posts 里的文章内容替换它。</p></blockquote><p>这里是占位内容,后续可以补充 深度学习 相关的文章。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 深度学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 示例 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>数据结构-线性表·栈·队列</title>
+      <link href="/2026/04/03/2026-04-03-UpdatingC-LanguageRelated/"/>
+      <url>/2026/04/03/2026-04-03-UpdatingC-LanguageRelated/</url>
+      
+        <content type="html"><![CDATA[<ul><li><code>free(p)</code>只释放该空间, 标记该空间为可复用，空间中数据暂时<strong>不会被清除</strong>，指针值未变，需要使用<code>p=NULL</code>，防止野指针。  </li><li>顺序表函数<code>clearlist(Sqlist &amp;L)</code>仅使length变为0，所存储值仍也存在，待覆盖。</li><li>头插法可用于建立逆向链表</li><li>就地逆转单链表方法</li></ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">LNode</span>&#123;</span><br><span class="line">    elemtype data;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">LNode</span> *next;</span><br><span class="line">&#125;LNode,*LinkList;</span><br><span class="line"><span class="function">LinkList <span class="title">Reverse</span><span class="params">(Linklist &amp;L)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(L-&gt;next==<span class="literal">NULL</span>||L-&gt;next-&gt;next) <span class="keyword">return</span> L;</span><br><span class="line">    LNode *pre = <span class="literal">NULL</span>;</span><br><span class="line">    LNode *cur = L-&gt;next;</span><br><span class="line">    LNode *next = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="literal">NULL</span>)&#123;</span><br><span class="line">        next=cur-&gt;next;  <span class="comment">//保留直接后继</span></span><br><span class="line">        cur-&gt;next=pre;  <span class="comment">//调转方向</span></span><br><span class="line">        pre=cur;       <span class="comment">//后移</span></span><br><span class="line">        cur=next;</span><br><span class="line">    &#125;</span><br><span class="line">    L-&gt;next=pre;  <span class="comment">//执行完循环操作后cur为原尾节的next，为NULL，pre为新的首元，令原头指针指向它</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>}LNode,*LinkList;</code>相当于给<code>struct LNode</code>起了两个别名，同时使得<code>LinkList</code>直接为指向这种结构的指针，方便后续简便书写。  </p><ul><li>在涉及到某个函数调用比较方法时，可以考虑使用函数指针，方便运用不同的比较规则</li></ul><h1 id="栈分为顺序栈和链栈"><a href="#栈分为顺序栈和链栈" class="headerlink" title="栈分为顺序栈和链栈"></a>栈分为顺序栈和链栈</h1><h2 id="SqStack"><a href="#SqStack" class="headerlink" title="SqStack"></a>SqStack</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">    elemtype *base;   <span class="comment">//基址，站地指针</span></span><br><span class="line">    elemtype *top; <span class="comment">//栈顶</span></span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">&#125;*SqStack</span><br></pre></td></tr></table></figure><p><code>top</code>指向下一个可以入栈的空位置（约定）  </p><h3 id="栈的应用"><a href="#栈的应用" class="headerlink" title="栈的应用"></a>栈的应用</h3><ul><li>数制转换</li><li><ul><li>eg.10-&gt;8</li></ul></li></ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">conversion</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    Sqstack* s = <span class="built_in">InitStack</span>(<span class="number">6</span>);</span><br><span class="line">    <span class="keyword">while</span>(n)&#123;</span><br><span class="line">        <span class="built_in">Push</span>(s,n%<span class="number">8</span>);</span><br><span class="line">        n/=<span class="number">8</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">StackEmpty</span>(s))&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,<span class="built_in">Pop</span>(s));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ul><li><ul><li>汉诺塔(和栈类似，只允许从顶出)</li></ul></li></ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">move</span><span class="params">(<span class="type">char</span> from,<span class="type">int</span> n, <span class="type">char</span> to)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Move disk %d from %c to %c\n&quot;</span>, n, from, to);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">hanoi</span><span class="params">(<span class="type">int</span> n, <span class="type">char</span> from, <span class="type">char</span> to, <span class="type">char</span> temp)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="built_in">move</span>(from, <span class="number">1</span>, to);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">hanoi</span>(n<span class="number">-1</span>, from, temp, to);</span><br><span class="line">        <span class="built_in">move</span>(from, n, to);</span><br><span class="line">        <span class="built_in">hanoi</span>(n<span class="number">-1</span>, temp, to, from);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> CPL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
